@@ -1,0 +1,23 @@
+server:
+  port: 9091
+  servlet:
+    context-path: /call-test
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:13306/esl?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    username: root
+    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis:
+  mapper-location: src.main.resources.mapper/*.xml
+  type-aliases-package: src.main.resources.mapper
+
+
+esl:
+  host: 192.168.52.182
+  port: 8021
+  password: ClueCon
+  timeout: 5
+

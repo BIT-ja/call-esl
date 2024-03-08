@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.data.call.record.mapper.RecordMapper">
+
+    <insert id="insertRecordData" parameterType="com.data.call.record.dto.EventDto">
+        insert into route_data(id,phone,duration,type,status,name,time,remark,date) values(#{id},#{phone},#{duration},#{type},#{status},#{name},#{time},#{remark},#{date})
+    </insert>
+
+    <insert id="insertRegisterRecord" parameterType="com.data.call.record.dto.RegisterEventDto">
+        insert into register_record( USER, CALL_ID, CONTACT, START_TIME)
+            values(#{userNo},#{callId},#{contact},#{startTime})
+    </insert>
+
+    <update id="updateRegisterRecord">
+        update register_record set END_TIME=#{endTime},DURATION=TIMESTAMPDIFF(SECOND, start_time, #{endTime}),END_TYPE=#{endType} where CALL_ID=#{callId}
+    </update>
+    <select id="getRegisterRecordCountByCallId" resultType="java.lang.Integer">
+        select count(*) from register_record where call_id=#{callId}
+    </select>
+
+</mapper>
