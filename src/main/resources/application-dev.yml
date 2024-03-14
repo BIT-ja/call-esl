@@ -16,6 +16,18 @@ spring:
     max-wait: 60000
     time-between-eviction-runs-millis: 60000
     min-evictable-idle-time-millis: 300000
+  task:
+    execution:
+      pool:
+        # 核心线程数
+        core-size: 16
+        # 最大线程数
+        max-size: 32
+        # 队列容量
+        queue-capacity: 32
+        # 非核心线程最大存活时间
+        keep-alive: 60s
+
 
 
 mybatis:
@@ -35,7 +47,7 @@ logging:
 
 
 esl:
-  host: 192.168.52.182
+  host: 192.168.84.210
   port: 8021
   password: ClueCon
   timeout: 5

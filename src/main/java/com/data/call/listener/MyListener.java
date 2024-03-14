@@ -34,34 +34,34 @@ public class MyListener implements IEslEventListener {
     public void eventReceived(EslEvent eslEvent) {
         String eventName= eslEvent.getEventName();
         logger.info("eventName-->"+ eventName);
+        Map<String, String> eventHeaders;
         switch (eventName) {
-            case "CHANNEL_EXECUTE_COMPLETE":
-                System.out.println("CHANNEL_EXECUTE_COMPLETE");
+            case "CHANNEL_CREATE":
+                logger.info("CHANNEL_CREATE");
                 break;
-            case "CHANNEL_EXECUTE":
-                System.out.println("CHANNEL_EXECUTE");
+            case "CHANNEL_ANSWER":
+                logger.info("CHANNEL_ANSWER");
                 break;
-            case "CHANNEL_PROGRESS":
-                System.out.println("CHANNEL_PROGRESS");
+            case "CHANNEL_HANGUP":
+                logger.info("CHANNEL_HANGUP");
+                eventHeaders = eslEvent.getEventHeaders();
+                recordService.insertCallRecord(eventHeaders);
                 break;
-            case "CHANNEL_PROGRESS_MEDIA":
-                System.out.println("CHANNEL_PROGRESS_MEDIA");
-                break;
-            case "CHANNEL_PROGRESS_MEDIA_IN":
-                System.out.println("CHANNEL_PROGRESS_MEDIA_IN");
+            case "CHANNEL_BRIDGE":
+                logger.info("CHANNEL_BRIDGE");
                 break;
             case "CUSTOM":
-                Map<String, String> eventHeaders = eslEvent.getEventHeaders();
+                eventHeaders = eslEvent.getEventHeaders();
                 String time = eventHeaders.get("Event-Date-Local");
-                //System.out.println("MSG："+msg);
+                //logger.info("MSG："+msg);
                 String agentCode = eventHeaders.get("user_name");
-                if (eventHeaders.get("Event-Subclass").equals("sofia::register")){
+                if ("sofia::register".equals(eventHeaders.get("Event-Subclass"))){
                     logger.info(agentCode+ " 用户签入！   "+ time);
                     recordService.insertRegisterRecord(eventHeaders);
-                } else if (eventHeaders.get("Event-Subclass").equals("sofia::unregister")){
+                } else if ("sofia::unregister".equals(eventHeaders.get("Event-Subclass"))){
                     logger.info(agentCode+ " 用户签出！   "+ time);
                     recordService.updateRegisterRecord(eventHeaders);
-                } else if (eventHeaders.get("Event-Subclass").equals("sofia::expire")){
+                } else if ("sofia::expire".equals(eventHeaders.get("Event-Subclass"))){
                     logger.info(agentCode+ " 注册超时！   "+ time);
                     recordService.updateRegisterRecord(eventHeaders);
                 }
@@ -75,4 +75,5 @@ public class MyListener implements IEslEventListener {
     public void backgroundJobResultReceived(EslEvent event) {
         logger.info("backgroundJobResultReceived-->"+ new JSONObject(event.getEventHeaders()));
     }
+
 }

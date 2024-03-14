@@ -1,8 +1,11 @@
 package com.data.call.record.mapper;
 
+import com.data.call.record.dto.CallRecordDto;
 import com.data.call.record.dto.EventDto;
 import com.data.call.record.dto.RegisterEventDto;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.Map;
 
 /**
  *@author:Cai.Hongchao
@@ -20,4 +23,8 @@ public interface RecordMapper {
     void updateRegisterRecord(RegisterEventDto registerEventDto);
 
     int getRegisterRecordCountByCallId(String callId);
+
+    void insertCallRecord(Map<String, String> eventHeaders);
+
+    void insertBridgeRecord(CallRecordDto callRecordDto);
 }

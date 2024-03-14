@@ -1,6 +1,5 @@
 package com.data.call.record.service;
 
-import com.data.call.record.dto.EventDto;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -15,9 +14,14 @@ import java.util.Map;
 public interface RecordService {
     void insertRecordData(Map<String,String> eslEvent);
 
-    Map<String,Object> insertRegisterRecord(Map<String,String> eslEvent);
+    void insertRegisterRecord(Map<String,String> eslEvent);
 
     int getRegisterRecordCountByCallId(String callId);
 
     void updateRegisterRecord(Map<String,String> eslEvent);
+
+    void insertCallRecord(Map<String, String> eventHeaders);
+
+    void insertBridgeRecord(Map<String, String> eventHeaders);
+
 }

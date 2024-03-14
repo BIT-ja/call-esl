@@ -19,4 +19,13 @@
         select count(*) from register_record where call_id=#{callId}
     </select>
 
+    <insert id="insertCallRecord">
+        insert into call_record(SID,CALLER,CALLEE,START_TIME,ANSWER_TIME,END_TIME,DURATION,UUID)
+        values(#{sid},#{caller},#{callee},#{createTime},#{answerTime},#{endTime},TIMESTAMPDIFF(SECOND, #{createTime}, #{endTime}),#{uuid})
+    </insert>
+
+    <insert id="insertBridgeRecord">
+        insert into bridge_record(SID,UUID,B_LEG_UUID,BRIDGE_TIME)
+        values(#{sid},#{uuid},#{BLegUuid},#{bridgeTime})
+    </insert>
 </mapper>

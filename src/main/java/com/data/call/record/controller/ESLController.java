@@ -28,9 +28,8 @@ public class ESLController {
 
     @RequestMapping("/reg")
     public Map<String, Object> reg(@RequestBody Map<String, String> map) {
-        Map<String, Object> resMap;
-        resMap = recordService.insertRegisterRecord(map);
-        return resMap;
+        recordService.insertRegisterRecord(map);
+        return null;
     }
 
     @RequestMapping("/api")

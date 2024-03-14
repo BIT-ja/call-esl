@@ -50,7 +50,7 @@ public class CommandExecutorHandler {
     * date: 2024/3/8 9:35
 
     * @author: Cai.Hongchao
-    * @since JDK 11
+    * @since JDK 8
     */
     private static void connect(){
         if(client == null){
@@ -87,6 +87,13 @@ public class CommandExecutorHandler {
         }
     }
 
+    /**
+    * Description: 同步执行api命令
+    * date: 2024/3/8 10:50
+
+    * @author: Cai.Hongchao
+    * @since JDK 8
+    */
     public EslMessage sendSyncApiCommand(String command, String args){
         connect();
         EslMessage result = null;
@@ -96,5 +103,4 @@ public class CommandExecutorHandler {
         logger.info("命令执行结果:{}",result);
         return result;
     }
-
 }

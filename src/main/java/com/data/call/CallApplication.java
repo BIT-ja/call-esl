@@ -1,16 +1,19 @@
 package com.data.call;
 
-import com.data.call.listener.ESLListener;
 import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableAsync;
 
-import javax.annotation.Resource;
-
+/**
+ * @Description:
+ * @Version: 1.0
+ * @author:Cai.Hongchao
+ * @create: 2023-11-26 16:36
+ */
 @SpringBootApplication
 @MapperScan("com.data.call.record.mapper")
+@EnableAsync
 public class CallApplication {
 
     public static void main(String[] args) {
