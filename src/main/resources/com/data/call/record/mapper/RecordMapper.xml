@@ -19,4 +19,6 @@
         select count(*) from register_record where call_id=#{callId}
     </select>
 
+    <insert id="insertCallRecord">
+    </insert>
 </mapper>

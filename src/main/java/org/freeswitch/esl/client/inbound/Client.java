@@ -1,10 +1,5 @@
 package org.freeswitch.esl.client.inbound;
 
-/**
- * @author:Cai.Hongchao
- * @create: 2024-03-07 16:24
- * @Description: 重写ESLClient
- */
 /*
  * Copyright 2010 david varnes.
  *
@@ -59,12 +54,13 @@ public class Client
 {
     private final Logger log = LoggerFactory.getLogger( this.getClass() );
 
-    private final List<IEslEventListener> eventListeners = new CopyOnWriteArrayList<IEslEventListener>();
+    private final List<IEslEventListener> eventListeners = new CopyOnWriteArrayList<>();
     private final Executor eventListenerExecutor = Executors.newSingleThreadExecutor(
             new ThreadFactory()
             {
-                AtomicInteger threadNumber = new AtomicInteger( 1 );
-                public Thread newThread( Runnable r )
+                final AtomicInteger threadNumber = new AtomicInteger( 1 );
+                @Override
+                public Thread newThread(Runnable r )
                 {
                     return new Thread( r, "EslEventNotifier-" + threadNumber.getAndIncrement() );
                 }
@@ -72,14 +68,15 @@ public class Client
     private final Executor backgroundJobListenerExecutor = Executors.newSingleThreadExecutor(
             new ThreadFactory()
             {
-                AtomicInteger threadNumber = new AtomicInteger( 1 );
-                public Thread newThread( Runnable r )
+                final AtomicInteger threadNumber = new AtomicInteger( 1 );
+                @Override
+                public Thread newThread(Runnable r )
                 {
                     return new Thread( r, "EslBackgroundJobNotifier-" + threadNumber.getAndIncrement() );
                 }
             });
 
-    private AtomicBoolean authenticatorResponded = new AtomicBoolean( false );
+    private final AtomicBoolean authenticatorResponded = new AtomicBoolean( false );
     private boolean authenticated;
     private CommandResponse authenticationResponse;
     private Channel channel;
@@ -135,7 +132,7 @@ public class Client
         {
             throw new InboundConnectionFailure( "Timeout connecting to " + host + ":" + port );
         }
-        // Did not timeout
+        // Did not time Out
         channel = future.getChannel();
         // But may have failed anyway
         if ( !future.isSuccess() )
@@ -247,7 +244,7 @@ public class Client
     public CommandResponse setEventSubscriptions( String format, String events )
     {
         // temporary hack
-        if ( ! format.equals( "plain" ) )
+        if ( ! "plain".equals(format) )
         {
             throw new IllegalStateException( "Only 'plain' event format is supported at present" );
         }
@@ -422,7 +419,8 @@ public class Client
      */
     private final IEslProtocolListener protocolListener = new IEslProtocolListener()
     {
-        public void authResponseReceived( CommandResponse response )
+        @Override
+        public void authResponseReceived(CommandResponse response )
         {
             authenticatorResponded.set( true );
             authenticated = response.isOk();
@@ -430,7 +428,8 @@ public class Client
             log.debug( "Auth response success={}, message=[{}]", authenticated, response.getReplyText() );
         }
 
-        public void eventReceived( final EslEvent event )
+        @Override
+        public void eventReceived(final EslEvent event )
         {
             log.debug( "Event received [{}]", event );
             /*
@@ -440,12 +439,13 @@ public class Client
              *  Use a different worker thread pool for async job results than for event driven
              *  events to keep the latency as low as possible.
              */
-            if ( event.getEventName().equals( "BACKGROUND_JOB" ) )
+            if ( "BACKGROUND_JOB".equals(event.getEventName()) )
             {
                 for ( final IEslEventListener listener : eventListeners )
                 {
                     backgroundJobListenerExecutor.execute( new Runnable()
                     {
+                        @Override
                         public void run()
                         {
                             try
@@ -466,6 +466,7 @@ public class Client
                 {
                     eventListenerExecutor.execute( new Runnable()
                     {
+                        @Override
                         public void run()
                         {
                             try
@@ -482,6 +483,7 @@ public class Client
             }
         }
 
+        @Override
         public void disconnected()
         {
             log.info( "Disconnected .." );
