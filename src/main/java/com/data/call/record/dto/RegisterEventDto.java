@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RegisterEventDto {
     private Long id;
-    private int userNo;
+    private int user;
     private String contact;
     private String startTime;
     private String endTime;

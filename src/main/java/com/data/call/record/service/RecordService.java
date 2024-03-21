@@ -22,4 +22,7 @@ public interface RecordService {
 
     Map<String,Object> insertCallRecord(Map<String, String> eventHeaders);
 
+    Map<String, Object> getRegister(Map<String, String> map);
+
+    Map<String,Object> insertBridgeRecord(Map<String, String> eventHeaders);
 }

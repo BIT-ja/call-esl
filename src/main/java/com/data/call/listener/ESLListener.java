@@ -7,6 +7,7 @@ import org.freeswitch.esl.client.transport.SendMsg;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -55,7 +56,7 @@ public class ESLListener {
 
     private static Client client;
 
-    @PostConstruct
+
     public void inboundFS() {
         listen();
         Thread daemonThread = new Thread(()->{
@@ -74,6 +75,7 @@ public class ESLListener {
         daemonThread.setDaemon(true);
         daemonThread.run();
     }
+
     public void listen(){
         try {
             client = new Client();

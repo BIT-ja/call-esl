@@ -9,10 +9,10 @@
 
     <insert id="insertRegisterRecord" parameterType="com.data.call.record.dto.RegisterEventDto">
         insert into register_record( USER, CALL_ID, CONTACT, START_TIME)
-            values(#{userNo},#{callId},#{contact},#{startTime})
+            values(#{user},#{callId},#{contact},#{startTime})
     </insert>
 
-    <update id="updateRegisterRecord">
+    <update id="updateRegisterRecord" parameterType="com.data.call.record.dto.CallRecordDto">
         update register_record set END_TIME=#{endTime},DURATION=TIMESTAMPDIFF(SECOND, start_time, #{endTime}),END_TYPE=#{endType} where CALL_ID=#{callId}
     </update>
     <select id="getRegisterRecordCountByCallId" resultType="java.lang.Integer">
@@ -20,5 +20,28 @@
     </select>
 
     <insert id="insertCallRecord">
+        insert into call_record(SID,CALLER,CALLEE,DIRECTION,CREATE_TIME,ANSWER_TIME,END_TIME,DURATION,UUID,HANGUP_CAUSE,SIP_HANGUP_CAUSE,CONTACT,DOMAIN)
+            values(#{sid},#{caller},#{callee},#{direction},#{createTime},#{answerTime},#{endTime},TIMESTAMPDIFF(SECOND,
+                    #{createTime}, #{endTime}),#{uuid},#{hangupCause},#{sipHangupCause},#{contact},#{domain})
+    </insert>
+
+    <select id="getRegisterRecord" resultType="com.data.call.record.dto.RegisterEventDto">
+        select USER,CONTACT,START_TIME,END_TIME,DURATION,CALL_ID from register_record
+            <where>
+                <if test="startTime != null and startTime != ''">
+                    and START_TIME &amp;gt #{callId}
+                </if>
+                <if test="endTime != null and endTime != ''">
+                    and END_TIME &amp;lt #{endTime}
+                </if>
+                <if test="user != null and user != ''">
+                    and USER=#{user}
+                </if>
+            </where>
+    </select>
+
+    <insert id="insertBridgeRecord" parameterType="com.data.call.record.dto.BridgeRecordDto">
+        insert into bridge_record(SID,UUID_A,UUID_B,BRIDGE_TIME)
+        values (#{sid},#{uuidA},#{uuidB},#{bridgeTime})
     </insert>
 </mapper>

@@ -36,22 +36,14 @@ public class MyListener implements IEslEventListener {
         logger.info("eventName-->"+ eventName);
         Map<String, String> eventHeaders;
         switch (eventName) {
-            case "CHANNEL_CALLSTATE":
-                logger.info("CHANNEL_CALLSTATE");
-                eventHeaders = eslEvent.getEventHeaders();
-                //recordService.insertCallRecord(eventHeaders);
-                break;
-            case "CHANNEL_ANSWER":
-                logger.info("CHANNEL_ANSWER");
-                break;
             case "CHANNEL_HANGUP":
-                logger.info("CHANNEL_HANGUP");
+                logger.info("eventReceived-->"+ new JSONObject(eslEvent.getEventHeaders()));
+                recordService.insertCallRecord(eslEvent.getEventHeaders());
                 break;
-            case "CHANNEL_PROGRESS_MEDIA":
-                logger.info("CHANNEL_PROGRESS_MEDIA");
-                break;
-            case "CHANNEL_PROGRESS_MEDIA_IN":
-                logger.info("CHANNEL_PROGRESS_MEDIA_IN");
+            case "CHANNEL_BRIDGE":
+                logger.info("CHANNEL_BRIDGE");
+                logger.info("eventReceived-->"+ new JSONObject(eslEvent.getEventHeaders()));
+                recordService.insertBridgeRecord(eslEvent.getEventHeaders());
                 break;
             case "CUSTOM":
                 eventHeaders = eslEvent.getEventHeaders();

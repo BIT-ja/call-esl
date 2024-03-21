@@ -100,7 +100,7 @@ public class CommandExecutorHandler {
         if(client != null){
             result = client.sendSyncApiCommand(command,args);
         }
-        logger.info("命令执行结果:{}",result);
+        logger.info("命令执行结果:{}",result.getBodyLines());
         return result;
     }
 }

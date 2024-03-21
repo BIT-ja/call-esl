@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -26,17 +27,26 @@ public class ESLController {
     @Resource
     private CommandExecutorHandler commandExecutorHandler;
 
-    @RequestMapping("/reg")
+    @RequestMapping("/show-reg-agent")
     public Map<String, Object> reg(@RequestBody Map<String, String> map) {
-        Map<String, Object> resMap;
-        resMap = recordService.insertRegisterRecord(map);
+        Map<String, Object> resMap = recordService.getRegister(map);
         return resMap;
     }
 
-    @RequestMapping("/api")
-    public Map<String, Object> api(@RequestBody Map<String, String> map) {
+    @RequestMapping("/async-api")
+    public Map<String, Object> asyncApi(@RequestBody Map<String, String> map) {
         Map<String, Object> resMap = new HashMap<>();
         String res = commandExecutorHandler.sendAsyncApiCommand(map.get("command"), map.get("args"));
+        resMap.put("data", res);
+        resMap.put("code", 200);
+        resMap.put("msg", "success");
+        return resMap;
+    }
+
+    @RequestMapping("/sync-api")
+    public Map<String, Object> syncApi(@RequestBody Map<String, String> map) {
+        Map<String, Object> resMap = new HashMap<>();
+        List<String> res = commandExecutorHandler.sendSyncApiCommand(map.get("command"), map.get("args")).getBodyLines();
         resMap.put("data", res);
         resMap.put("code", 200);
         resMap.put("msg", "success");

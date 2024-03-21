@@ -13,13 +13,14 @@ public class CallRecordDto {
     private Long sid;
     private String caller;
     private String callee;
-    private String direction;
+    private int direction;
     private String createTime;
     private String answerTime;
-    private String bridgeTime;
     private String endTime;
     private String duration;
     private String uuid;
-    private String callType;
-    private String BLegUuid;
+    private String hangupCause;
+    private String sipHangupCause;
+    private String contact;
+    private String domain;
 }
