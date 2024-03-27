@@ -9,7 +9,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import javax.annotation.Resource;
 
 @SpringBootApplication
-@MapperScan("com.data.call.record.mapper")
 public class CallApplication implements CommandLineRunner{
 
     @Resource

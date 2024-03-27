@@ -3,6 +3,13 @@
 
 <mapper namespace="com.data.call.record.mapper.RecordMapper">
 
+    <resultMap id="bridgeMap" type="com.data.call.record.dto.BridgeRecordDto">
+            <id property="sid" column="SID"/>
+            <id property="bridgeTime" column="BRIDGE_TIME"/>
+            <result property="uuidA" column="UUID_A"/>
+            <result property="uuidB" column="UUID_B"/>
+    </resultMap>
+
     <insert id="insertRecordData" parameterType="com.data.call.record.dto.EventDto">
         insert into route_data(id,phone,duration,type,status,name,time,remark,date) values(#{id},#{phone},#{duration},#{type},#{status},#{name},#{time},#{remark},#{date})
     </insert>
@@ -44,4 +51,48 @@
         insert into bridge_record(SID,UUID_A,UUID_B,BRIDGE_TIME)
         values (#{sid},#{uuidA},#{uuidB},#{bridgeTime})
     </insert>
+
+    <select id="getCallRecord" resultType="com.data.call.record.dto.CallRecordDto">
+        select SID,CALLER,CALLEE,DIRECTION,CREATE_TIME,ANSWER_TIME,END_TIME,DURATION,UUID,HANGUP_CAUSE,SIP_HANGUP_CAUSE,CONTACT,DOMAIN from call_record
+            <where>
+                <if test="startTime != null and startTime != ''">
+                    and CREATE_TIME &amp;gt#{startTime}
+                </if>
+                <if test="endTime != null and endTime != ''">
+                    and CREATE_TIME &amp;lt #{endTime}
+                </if>
+                <if test="caller != null and caller != ''">
+                    and CALLER=#{caller}
+                </if>
+                <if test="callee != null and callee != ''">
+                    and CALLEE=#{callee}
+                </if>
+                <if test="uuid != null and uuid != ''">
+                    and UUID=#{uuid}
+                </if>
+                <if test="domain != null and domain != ''">
+                    and DOMAIN=#{domain}
+                </if>
+                <if test="contact != null and contact != ''">
+                    and CONTACT like %#{contact}%
+                </if>
+            </where>
+        order by CREATE_TIME desc
+    </select>
+
+    <select id="getBridgeRecord" resultMap="bridgeMap">
+        select SID,UUID_A,UUID_B,BRIDGE_TIME from bridge_record
+            <where>
+                <if test="startTime != null and startTime != ''">
+                    and BRIDGE_TIME &amp;gt #{startTime}
+                </if>
+                <if test="endTime != null and endTime != ''">
+                    and BRIDGE_TIME &amp;lt#{endTime}
+                </if>
+                <if test="uuid != null and uuid != ''">
+                    and UUID_A=#{uuid} or UUID_B=#{uuid}
+                </if>
+            </where>
+        order by BRIDGE_TIME desc;
+    </select>
 </mapper>

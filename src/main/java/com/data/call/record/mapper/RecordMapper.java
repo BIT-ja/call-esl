@@ -26,9 +26,13 @@ public interface RecordMapper {
 
     int getRegisterRecordCountByCallId(String callId);
 
-    void insertCallRecord(CallRecordDto callRecordDto);
+    int insertCallRecord(CallRecordDto callRecordDto);
 
     List<RegisterEventDto> getRegisterRecord(Map<String, String> map);
 
-    void insertBridgeRecord(BridgeRecordDto bridgeRecordDto);
+    int insertBridgeRecord(BridgeRecordDto bridgeRecordDto);
+
+    List<CallRecordDto> getCallRecord(Map<String, String> map);
+
+    List<BridgeRecordDto> getBridgeRecord(Map<String, String> map);
 }

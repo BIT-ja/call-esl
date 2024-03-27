@@ -29,8 +29,7 @@ public class ESLController {
 
     @RequestMapping("/show-reg-agent")
     public Map<String, Object> reg(@RequestBody Map<String, String> map) {
-        Map<String, Object> resMap = recordService.getRegister(map);
-        return resMap;
+        return recordService.getRegister(map);
     }
 
     @RequestMapping("/async-api")
@@ -51,5 +50,10 @@ public class ESLController {
         resMap.put("code", 200);
         resMap.put("msg", "success");
         return resMap;
+    }
+
+    @RequestMapping("/getCallRecord")
+    public Map<String, Object> getCallRecord(@RequestBody Map<String, String> map) {
+        return recordService.getCallRecord(map);
     }
 }

@@ -8,6 +8,7 @@ import lombok.Data;
  * @author:Cai.Hongchao
  * @create: 2024-03-21 10:15:00
  */
+
 @Data
 public class BridgeRecordDto {
     private String sid;

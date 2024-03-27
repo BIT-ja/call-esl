@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.data.call.interceptor.mapper.ApiRequestMapper">
+    <insert id="insertApiRequestLog" parameterType="com.data.call.interceptor.dto.ApiRequestDto">
+            insert into api_request_log(id,path,method,params,request_time)
+            values(#{id},#{path},#{method},#{params},#{requestTime})
+    </insert>
+</mapper>
